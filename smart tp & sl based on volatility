@@ -1,0 +1,10 @@
+Replace TP/SL logic:
+atr = df['atr'].iloc[-1]
+
+if direction == "BUY ⬆️":
+    tp = price + atr * 1.5
+    sl = price - atr
+else:
+    tp = price - atr * 1.5
+    sl = price + atr
+    This adapts to market speed automatically.
