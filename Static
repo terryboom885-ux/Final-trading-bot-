@@ -1,0 +1,81 @@
+body {
+  background:#0b1220;
+  color:white;
+  font-family:Arial;
+  text-align:center;
+}
+
+.container {
+  padding:15px;
+}
+
+.screen {
+  display:none;
+}
+
+.screen.active {
+  display:block;
+}
+
+.bigBtn {
+  width:100%;
+  padding:16px;
+  margin:8px 0;
+  background:#1f2937;
+  color:white;
+  border:none;
+  border-radius:12px;
+  font-size:16px;
+}
+
+.grid button {
+  width:48%;
+  padding:14px;
+  margin:4px;
+  background:#111827;
+  color:white;
+  border:none;
+  border-radius:10px;
+}
+
+.startBtn {
+  width:100%;
+  padding:18px;
+  background:#16a34a;
+  border:none;
+  border-radius:12px;
+  font-size:18px;
+}
+
+.backBtn {
+  margin-top:10px;
+  padding:10px 20px;
+  background:#374151;
+  border:none;
+  border-radius:8px;
+}
+
+.resultCard {
+  background:#020617;
+  padding:20px;
+  border-radius:12px;
+  margin-top:15px;
+}
+
+.signal {
+  font-size:34px;
+  font-weight:bold;
+  margin:10px;
+}
+
+.meter {
+  background:#1f2937;
+  height:10px;
+  border-radius:10px;
+}
+
+.meterFill {
+  background:#22c55e;
+  height:10px;
+  border-radius:10px;
+}
