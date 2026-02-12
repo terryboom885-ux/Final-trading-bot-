@@ -1,0 +1,19 @@
+Update engine.py
+Add: 
+def confirm_trend(pair):
+    import yfinance as yf
+
+    fast = yf.download(pair, period="1d", interval="5m", progress=False)
+    slow = yf.download(pair, period="5d", interval="1h", progress=False)
+
+    if len(fast) < 30 or len(slow) < 30:
+        return 0
+
+    fast_trend = fast.Close.iloc[-1] > fast.Close.rolling(20).mean().iloc[-1]
+    slow_trend = slow.Close.iloc[-1] > slow.Close.rolling(50).mean().iloc[-1]
+
+    if fast_trend and slow_trend:
+        return 2
+    if not fast_trend and not slow_trend:
+        return -2
+    return 0
