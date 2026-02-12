@@ -1,0 +1,7 @@
+Avoid chop markets.
+Add inside analyze():
+volatility = df['atr'].iloc[-1]
+
+if volatility < df['atr'].rolling(50).mean().iloc[-1]:
+    return None
+This removes weak environments.
