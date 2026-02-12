@@ -1,0 +1,3 @@
+Update scanner condition:
+if result["confidence"] >= 75 and result["grade"] in ["A","A+"]:
+Now the bot only shows strong setups.
