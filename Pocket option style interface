@@ -1,0 +1,161 @@
+Replace templates/pro.html completely:
+<!DOCTYPE html>
+<html>
+<head>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>AI Trading Pro</title>
+<link rel="stylesheet" href="/static/style.css">
+</head>
+
+<body>
+
+<div class="container">
+
+<!-- STEP 1 — SELECT MARKET -->
+<div id="step1" class="screen active">
+
+<h2>Select the market type for trading</h2>
+
+<button class="bigBtn" onclick="setMarket('REAL')">🌐 Real Market</button>
+<button class="bigBtn" onclick="setMarket('OTC')">🔁 OTC Market</button>
+<button class="bigBtn" onclick="setMarket('CRYPTO')">💎 Cryptocurrencies</button>
+<button class="bigBtn" onclick="setMarket('STOCKS')">📈 Stocks OTC</button>
+<button class="bigBtn" onclick="setMarket('COMMODITIES')">🛢 Commodities OTC</button>
+
+</div>
+
+<!-- STEP 2 — SELECT ASSET -->
+<div id="step2" class="screen">
+
+<h2>Select currency pair</h2>
+
+<div class="grid">
+
+<button onclick="setPair('EURUSD=X')">EUR/USD</button>
+<button onclick="setPair('GBPUSD=X')">GBP/USD</button>
+<button onclick="setPair('USDJPY=X')">USD/JPY</button>
+<button onclick="setPair('AUDUSD=X')">AUD/USD</button>
+<button onclick="setPair('USDCHF=X')">USD/CHF</button>
+<button onclick="setPair('USDCAD=X')">USD/CAD</button>
+
+</div>
+
+<button class="backBtn" onclick="goBack(1)">Back</button>
+
+</div>
+
+<!-- STEP 3 — SELECT TIMEFRAME -->
+<div id="step3" class="screen">
+
+<h2>Select timeframe for analysis</h2>
+
+<div class="grid">
+
+<button onclick="setTF('1m')">1 Minute</button>
+<button onclick="setTF('3m')">3 Minutes</button>
+<button onclick="setTF('5m')">5 Minutes</button>
+<button onclick="setTF('30m')">30 Minutes</button>
+<button onclick="setTF('1h')">1 Hour</button>
+<button onclick="setTF('4h')">4 Hours</button>
+
+</div>
+
+<button class="backBtn" onclick="goBack(2)">Back</button>
+
+</div>
+
+<!-- STEP 4 — START ANALYSIS -->
+<div id="step4" class="screen">
+
+<h3 id="summary"></h3>
+
+<button class="startBtn" onclick="startAnalysis()">
+Start Analysis 🚀
+</button>
+
+<button class="backBtn" onclick="goBack(3)">Back</button>
+
+</div>
+
+<!-- STEP 5 — RESULT -->
+<div id="step5" class="screen">
+
+<div id="resultCard"></div>
+
+<button class="backBtn" onclick="resetFlow()">New Analysis</button>
+
+</div>
+
+</div>
+
+<script>
+let selectedMarket = ""
+let selectedPair = ""
+let selectedTF = ""
+
+function showStep(n){
+  document.querySelectorAll(".screen").forEach(s => s.classList.remove("active"))
+  document.getElementById("step"+n).classList.add("active")
+}
+
+function setMarket(m){
+  selectedMarket = m
+  showStep(2)
+}
+
+function setPair(p){
+  selectedPair = p
+  showStep(3)
+}
+
+function setTF(tf){
+  selectedTF = tf
+  document.getElementById("summary").innerText =
+    `Pair: ${selectedPair} | Timeframe: ${selectedTF}`
+  showStep(4)
+}
+
+function goBack(step){
+  showStep(step)
+}
+
+function resetFlow(){
+  showStep(1)
+}
+
+async function startAnalysis(){
+
+  const res = await fetch("/signal",{
+    method:"POST",
+    headers:{"Content-Type":"application/json"},
+    body:JSON.stringify({
+      pair:selectedPair,
+      tf:selectedTF,
+      lowRisk:true
+    })
+  })
+
+  const data = await res.json()
+  if(!data) return
+
+  document.getElementById("resultCard").innerHTML = `
+    <div class="resultCard">
+      <h2>${data.pair}</h2>
+      <div class="signal">${data.signal}</div>
+      <p>Confidence: ${data.confidence}%</p>
+      <p>Risk: ${data.risk}</p>
+      <p>Take Profit: ${data.tp}</p>
+      <p>Stop Loss: ${data.sl}</p>
+      <p>Pattern: ${data.pattern}</p>
+      <div class="meter">
+        <div class="meterFill" style="width:${data.confidence}%"></div>
+      </div>
+    </div>
+  `
+
+  showStep(5)
+}
+</script>
+
+</body>
+</html>
