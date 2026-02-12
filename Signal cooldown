@@ -1,0 +1,17 @@
+Create cooldown.py
+last_signal_time = {}
+
+def can_signal(pair):
+    import time
+    now = time.time()
+
+    if pair not in last_signal_time:
+        last_signal_time[pair] = now
+        return True
+
+    if now - last_signal_time[pair] > 180:
+        last_signal_time[pair] = now
+        return True
+
+    return False
+Use inside scanner before sending signal.
