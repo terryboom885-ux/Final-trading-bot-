@@ -1,0 +1,8 @@
+if confidence >= 85:
+    grade = "A+"
+elif confidence >= 75:
+    grade = "A"
+elif confidence >= 65:
+    grade = "B"
+else:
+    grade = "C"
